@@ -1,0 +1,21 @@
+[
+  { "source": "anthropics/skills", "agents": ["claude-code", "codex"], "skills": ["frontend-design"] },
+  { "source": "currents-dev/playwright-best-practices-skill", "agents": ["claude-code", "codex"], "skills": ["playwright-best-practices"] },
+  { "source": "github/awesome-copilot", "agents": ["claude-code", "codex"], "skills": ["draw-io-diagram-generator"] },
+  { "source": "github/awesome-copilot", "agents": ["codex"], "skills": ["excalidraw-diagram-generator"] },
+  { "source": "Hanseooo/hanseo-skills", "agents": ["claude-code", "codex"], "skills": ["charter", "docket"] },
+  { "source": "Hanseooo/hanseo-skills", "agents": ["codex"], "skills": ["stint"] },
+  { "source": "JuliusBrussee/caveman", "agents": ["codex"], "skills": ["caveman"] },
+  { "source": "Leonxlnx/taste-skill", "agents": ["claude-code", "codex"], "skills": ["brandkit", "design-taste-frontend", "full-output-enforcement", "gpt-taste", "high-end-visual-design", "image-to-code", "industrial-brutalist-ui", "minimalist-ui", "redesign-existing-projects"] },
+  { "source": "mattpocock/skills", "agents": ["claude-code", "codex"], "skills": ["ask-matt", "code-review", "codebase-design", "diagnosing-bugs", "domain-modeling", "grill-me", "grill-with-docs", "grilling", "handoff", "implement", "implement-spec", "improve-codebase-architecture", "prototype", "research", "resolving-merge-conflicts", "setup-matt-pocock-skills", "tdd", "to-spec", "to-tickets", "triage", "wayfinder", "wizard", "writing-for-agents"] },
+  { "source": "microsoft/playwright-cli", "agents": ["claude-code", "codex"], "skills": ["playwright-cli"] },
+  { "source": "nextlevelbuilder/ui-ux-pro-max-skill", "agents": ["claude-code", "codex"], "skills": ["ui-ux-pro-max"] },
+  { "source": "obra/superpowers", "agents": ["codex"], "skills": ["brainstorming", "executing-plans", "systematic-debugging", "test-driven-development", "writing-plans"] },
+  { "source": "pbakaus/impeccable", "agents": ["claude-code", "codex"], "skills": ["impeccable"] },
+  { "source": "shadcn/improve", "agents": ["claude-code", "codex"], "skills": ["improve"] },
+  { "source": "sickn33/antigravity-awesome-skills", "agents": ["codex"], "skills": ["nextjs-best-practices"] },
+  { "source": "sleekdotdesign/agent-skills", "agents": ["claude-code", "codex"], "skills": ["sleek-design-mobile-apps"] },
+  { "source": "supabase/agent-skills", "agents": ["claude-code", "codex"], "skills": ["supabase"] },
+  { "source": "vercel-labs/agent-skills", "agents": ["claude-code", "codex"], "skills": ["vercel-react-best-practices", "web-design-guidelines"] },
+  { "source": "wshobson/agents", "agents": ["codex"], "skills": ["github-actions-templates", "openapi-spec-generation"] }
+]

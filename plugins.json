@@ -1,0 +1,16 @@
+{
+  "claude": {
+    "marketplaces": ["anthropics/claude-plugins-community", "DietrichGebert/ponytail"],
+    "plugins": [
+      "superpowers@claude-plugins-official",
+      "security-guidance@claude-plugins-official",
+      "code-simplifier@claude-plugins-official",
+      "frontend-design@claude-plugins-official",
+      "ponytail@ponytail"
+    ]
+  },
+  "codex": {
+    "marketplaces": ["DietrichGebert/ponytail"],
+    "plugins": ["superpowers@openai-curated", "ponytail@ponytail"]
+  }
+}
