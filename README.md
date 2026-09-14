@@ -31,6 +31,7 @@ Read only the one you need.
 ## What's in here
 
 ```
+AGENTS.md                 rules for agents working on this repo (CLAUDE.md imports it)
 claude/
   CLAUDE.md               global instructions for Claude Code
   commands/               slash commands (/project-init)
