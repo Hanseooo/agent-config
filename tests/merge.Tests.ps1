@@ -14,6 +14,18 @@ Describe 'Merge-JsonSettings' {
         (Merge-JsonSettings -Target $target -Shared $shared) | Should Match '"allow":\s*\[\s*"Read"\s*\]'
     }
 
+    It 'merges nested objects and combines string lists instead of replacing them' {
+        $target = '{"permissions":{"allow":["Bash(git:*)","Read"],"deny":["Read(.env)"]},"enabledPlugins":{"local@m":true,"shared@m":true}}'
+        $shared = '{"permissions":{"allow":["Read","Edit"]},"enabledPlugins":{"shared@m":false}}'
+
+        $result = Merge-JsonSettings -Target $target -Shared $shared | ConvertFrom-Json
+
+        ($result.permissions.allow -join ',') | Should Be 'Read,Edit,Bash(git:*)'
+        ($result.permissions.deny -join ',') | Should Be 'Read(.env)'
+        $result.enabledPlugins.'local@m' | Should Be $true
+        $result.enabledPlugins.'shared@m' | Should Be $false
+    }
+
     It 'treats a missing target file as empty' {
         $result = Merge-JsonSettings -Target '' -Shared '{"model":"opus"}' | ConvertFrom-Json
 

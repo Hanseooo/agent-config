@@ -1,0 +1,2 @@
+# LF everywhere, so files the installer copies or compares look the same on every machine.
+* text=auto eol=lf

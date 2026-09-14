@@ -1,12 +1,28 @@
 # Merges shared settings into a machine's settings without dropping machine-only keys.
 
-# Top-level keys from $Shared replace the same keys in $Target. Everything else in $Target stays.
-function Merge-JsonSettings([string]$Target, [string]$Shared) {
-    $result = if ($Target.Trim()) { ConvertFrom-Json $Target } else { New-Object psobject }
-    foreach ($property in (ConvertFrom-Json $Shared).PSObject.Properties) {
-        $result | Add-Member -NotePropertyName $property.Name -NotePropertyValue $property.Value -Force
+# Objects merge key by key. Lists of plain values combine, shared entries first.
+# Anything else from $Shared replaces the $Target value.
+function Merge-JsonValue($Target, $Shared) {
+    if ($Target -is [System.Management.Automation.PSCustomObject] -and $Shared -is [System.Management.Automation.PSCustomObject]) {
+        foreach ($property in $Shared.PSObject.Properties) {
+            $existing = $Target.PSObject.Properties[$property.Name]
+            $value = if ($existing) { Merge-JsonValue $existing.Value $property.Value } else { $property.Value }
+            $Target | Add-Member -NotePropertyName $property.Name -NotePropertyValue $value -Force
+        }
+        return $Target
     }
-    ConvertTo-Json -InputObject $result -Depth 50
+    $isPlainList = $Target -is [array] -and $Shared -is [array] -and
+        -not (@($Target) + @($Shared) | Where-Object { $_ -is [System.Management.Automation.PSCustomObject] -or $_ -is [array] })
+    if ($isPlainList) {
+        return , @(@($Shared) + @($Target | Where-Object { $Shared -notcontains $_ }))
+    }
+    , $Shared
+}
+
+# Merges shared settings into a machine's settings.json text. Settings only on the machine stay.
+function Merge-JsonSettings([string]$Target, [string]$Shared) {
+    $result = if ($Target.Trim()) { ConvertFrom-Json $Target } else { [pscustomobject]@{} }
+    ConvertTo-Json -InputObject (Merge-JsonValue $result (ConvertFrom-Json $Shared)) -Depth 50
 }
 
 # Splits TOML text into blocks: the preamble (Header '') and one block per [table] header.

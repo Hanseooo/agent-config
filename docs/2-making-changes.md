@@ -3,6 +3,9 @@
 Rule of thumb: **edit the repo, never the files in `~\.claude` or `~\.codex`.**
 Then commit, push, and on each other machine run `git pull` and `.\install.ps1`.
 
+Not sure what a machine changed on its own? Run `.\install.ps1 -Check` first. It lists every
+difference from the repo and changes nothing.
+
 Jump to what you're changing:
 
 - [Global instructions](#global-instructions)
@@ -35,7 +38,8 @@ npx skills add owner/repo -g -s skill-name -a claude-code codex
 ```
 
 Then add it to `skills.json` so other machines get it. Use `-a codex` alone for a
-Codex-only skill, and match that in `skills.json`.
+Codex-only skill, and match that in `skills.json`. Forgot one? `.\install.ps1 -Check` lists
+installed skills missing from `skills.json`.
 
 **Remove one:**
 
@@ -57,9 +61,12 @@ command on each machine too.
 
 Edit `claude/settings.shared.json` or `codex/config.shared.toml`, then re-run the installer.
 
-- Keys in these files overwrite the same keys on the machine.
-- Keys only on the machine are left alone.
-- **Deleting a key here does not delete it on machines.** Remove it there by hand.
+- A value here wins over the machine's value for the same setting.
+- Nested settings merge one key at a time, and lists like `permissions.allow` combine. A
+  permission you allowed on one machine stays on that machine.
+- Settings only on the machine are left alone.
+- **Deleting a key or list entry here does not delete it on machines.** Remove it there by
+  hand.
 
 Put only settings every machine should share here. Paths, project trust, and hooks stay
 local. See [3. What's synced](3-whats-synced.md).

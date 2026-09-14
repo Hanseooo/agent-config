@@ -45,8 +45,18 @@ terminal, then re-run the installer.
 
 ## Claude ignores my instructions
 
-Open `~\.claude\CLAUDE.md`. It should be one line, like `@~/agent-config/claude/CLAUDE.md`.
-If the repo moved, re-run the installer from the new folder to rewrite that line.
+Open `~\.claude\CLAUDE.md`. It should be a comment plus one line like
+`@~/agent-config/claude/CLAUDE.md`. If the repo moved, re-run the installer from the new
+folder to rewrite that line.
+
+## A setting or skill is different on this machine and I don't know why
+
+```powershell
+.\install.ps1 -Check
+```
+
+It lists every file, link, setting, and skill that differs from the repo, and changes nothing.
+Copy anything worth keeping into the repo before running the installer.
 
 ## I need something the installer replaced
 
