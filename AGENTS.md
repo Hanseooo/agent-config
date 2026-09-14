@@ -37,7 +37,9 @@ Windows PowerShell 5.1, from the repo root.
 ## Project Invariants
 
 - **Public repo.** Commit only what anyone may read. Tokens, MCP server configs, machine
-  paths, project names, and client details stay on the machine.
+  paths, project names, and client details stay on the machine. Commits use
+  `151847632+Hanseooo@users.noreply.github.com`; on a fresh clone run
+  `git config user.email 151847632+Hanseooo@users.noreply.github.com` before the first commit.
 - **Two instruction files, on purpose.** `claude/CLAUDE.md` and `codex/AGENTS.md` hold mostly
   the same rules in different words, and the user chose to keep them separate. A rule change
   meant for both tools goes into both files in the same change.
