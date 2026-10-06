@@ -50,9 +50,9 @@ Gather evidence for every claim you will make:
 
 Executable configuration, CI, and code beat prose. Read enough to verify, not everything.
 
-**Checkpoint:** if install, lint, test, or verify commands are missing or ambiguous, ask
-one focused question and stop before writing files. Otherwise omit the unsupported line
-and continue.
+**Checkpoint:** if an install, lint, test, or verify command is ambiguous (two candidates
+the evidence cannot decide between), ask one focused question and stop before writing
+files. A command with no evidence at all is omitted and named in the final report.
 
 ## Phase 2: Write AGENTS.md
 
@@ -108,9 +108,19 @@ behaves as it reads gets no note.
 - What "passing" means here: <...>
 - CI: <workflow> on <trigger>. <Gates merge | reports only — branch protection state>
 - Intentional skips and known flaky: <...>
+- Mock boundary: <the third-party clients, clock, and network seams tests may stub>.
+  Everything inside it runs for real.
+- Fixtures: <where captured real payloads live>
+- Critical flows: <user-visible flows a change must be verified through end to end>
+- Not automatable: <hardware, devices, third-party dashboards> → manual check, reported
+  as unverified
 
 ## Project Invariants
 - <Fragile rules: coordinate systems, ID ordering, required boundary conversions>
+
+## Known Gaps
+- <Open, unfixed problems an agent would otherwise rediscover. Ask before fixing one, and
+  delete its line in the same change.>
 
 ## Definition of Done
 - <project-specific merge or PR requirements>
@@ -131,7 +141,7 @@ Add a short `## Baseline Rules` block only when one of these holds:
   open source, a client handoff, a team on mixed tooling.
 - The user asks for it.
 
-When included, keep it to roughly ten bullets, written as a distillation and never as a
+When included, keep it to roughly a dozen bullets, written as a distillation and never as a
 verbatim copy of anyone's global file. Head the block with one line: where the reading
 agent's own global rules are stricter, the stricter rule wins.
 
@@ -156,8 +166,18 @@ agent's own global rules are stricter, the stricter rule wins.
   change; auth, billing, or infra; more than three modules; hard to reverse.
 - **The code wins.** A plan or doc the codebase contradicts is not a spec to satisfy.
   Deviate, and name what you found. Flag the drift.
+- **Evidence over inference.** A claim about behavior, an API, or a version is checked or
+  labeled inferred. A bug gets a command that goes red on it before it gets a fix. Two
+  failed fixes on one premise → test the premise before a third.
 - **Verify before done.** Never claim complete without running the check and showing its
-  output. Run existing tests before writing new ones.
+  output. Run existing tests before writing new ones. A UI change is driven in a real
+  browser before it is done.
+- **Tests prove behavior.** Each new test fails for the intended reason first. Expected
+  values are hand-worked, never computed by the code under test (a tautological test
+  passes by construction). Test through the public interface, mock only third-party
+  calls, the clock, and the network, and assert what a mock received rather than that it
+  was called. A failing test's expectation changes only when the test is wrong. A
+  skipped, deleted, or loosened test leaves the task unfinished.
 - **Security.** Never read `.env` or secret files. Never echo credentials. Never
   authenticate on the user's behalf; stop at the login wall and hand it back.
 - **Commits.** No co-author or generated-by trailers. Several harnesses add these
@@ -197,7 +217,9 @@ Write only the files that apply. Never duplicate project facts into them.
    evidence means omit the line and name the gap in your final report.
 2. **Validate, do not annotate.** Check every command against the file it came from before
    writing it. Keep the verification out of the output: inline evidence tags bloat a file
-   that loads every session to serve an audit that happens rarely.
+   that loads every session to serve an audit that happens rarely. Commands are read, not
+   run: the final report lists each one with its source file as "not run" and offers to
+   run the read-only ones (lint, typecheck, unit tests).
 3. **Canonical package manager**, decided by lockfile:
    `pnpm-lock.yaml`→pnpm · `yarn.lock`→yarn · `package-lock.json`→npm · `bun.lockb`→bun ·
    `uv.lock`→`uv run` · `poetry.lock`→`poetry run` · `Pipfile.lock`→`pipenv run`.
@@ -220,6 +242,8 @@ Write only the files that apply. Never duplicate project facts into them.
 ## Completion criteria
 
 - Every line in the generated file is project-specific and supported by evidence.
+- Every line passed the removal test: deleting it would cause an agent to make a mistake.
+  The final report lists the lines cut by this test.
 - Every command was validated against its source.
 - No existing instruction file was changed without approval.
 - The final report names every gap you chose to omit rather than guess.

@@ -13,7 +13,8 @@
   auth, billing, or infrastructure, spanning more than three modules, or making a
   hard-to-reverse decision.
 - When material ambiguity changes the result, state the options and tradeoffs, then ask
-  one focused question.
+  one focused question. An interpretation that is merely uncertain is taken: name the
+  assumption and continue.
 
 ## Simplicity
 
@@ -58,6 +59,13 @@ A solid foundation is cheap to reverse, not built ahead of need.
 
 - Read the requirement and trace the affected code path before editing.
 - Search the whole repository before calling code unused, dead, or deprecated.
+- A claim about behavior, an API, a flag, or a version is checked (run it, read the
+  installed source, `--help`) or labeled inferred. A check that could not run is
+  inconclusive, and inconclusive is not a pass. A bug gets a command that goes red on it
+  before it gets a fix.
+- After two failed fixes resting on one premise, write the premise down and test it
+  before a third. A guard added because it might help is a hypothesis: revert it when the
+  evidence refutes it.
 - Preserve unrelated changes and existing style. Remove only orphans created by the
   current change.
 - Project instructions define local conventions. Executable configuration, CI, and
@@ -81,14 +89,29 @@ A solid foundation is cheap to reverse, not built ahead of need.
 - State acceptance criteria before implementation.
 - Use failing-test-first for non-trivial behavior involving a branch, loop, parser,
   money, or security. One-liners, configuration, and pure renames are exempt.
-- Prefer existing relevant tests. New tests cover at most one main path and one critical
-  failure path, introduce no new test infrastructure, and must fail for the intended
-  reason before the implementation passes them.
-- Capture fixtures from real payloads rather than inventing them. Mock only at the outer
-  boundary, meaning a third-party call, the clock, or the network. Derive expected values
-  by hand. An invented fixture encodes assumptions instead of the data, a stub between the
-  entry point and the assertion puts the stub under test, and an expectation the code
-  computed passes no matter what that code does.
+- Prefer existing relevant tests. New unit tests cover at most one main path and one
+  critical failure path and introduce no new test infrastructure. End-to-end tests get
+  one scenario per user story.
+- Every test must fail for the intended reason before the implementation passes it, at
+  every level. Break what it covers on purpose and confirm it fails. A test that stays
+  green is decoration: rewrite it or delete it.
+- These hold whether or not a testing skill loads:
+  - Expected values come from a hand-worked literal or the specification. One computed by
+    the code under test or its helpers makes the test tautological: it passes by
+    construction.
+  - Test through the public interface. A test that breaks on a refactor that kept
+    behavior is coupled to the implementation.
+  - Mock only at the outer boundary, meaning a third-party call, the clock, or the
+    network. A stub between the entry point and the assertion puts the stub under test.
+    Assert what a mock received or the state after the call, never only that it was
+    called.
+  - Capture fixtures from real payloads. An invented fixture encodes assumptions instead
+    of the data.
+- A failing test is evidence. Change its expectation only when the test is wrong, and say
+  why in the report. A skipped, deleted, or loosened test leaves the task unfinished.
+- A UI change is complete once driven in a real browser, using the project's end-to-end
+  runner or else `playwright-cli`, with a clean console. A flow that cannot be driven,
+  such as hardware or a third-party service, is reported as unverified.
 - Completion requires fresh evidence. Report commands run and results. Include failure
   output and clearly name skipped checks.
 
@@ -103,6 +126,7 @@ surface. Preserve the following as requested rather than speculative:
 - confirmation or undo before a destructive action
 - keyboard navigation, focus order, and Escape and Enter handling
 - accessible names on controls
+- optimistic updates where the surrounding UI already has them
 - established interaction states the design system already defines
 
 Reuse existing design-system primitives and tokens, and reuse the platform control rather
@@ -124,7 +148,9 @@ version is too slow.
   permission to use it. After sign-in, do not screenshot or read back pages showing
   tokens or session cookies. Testing a login flow is the one exception: a throwaway
   account with credentials the user supplies for that purpose, and still ask first.
-- Never add a co-author to a commit.
+- Never add a co-author or generated-by trailer to a commit.
+- Confirm before irreversible operations. Revert, restore, branch switches, backups inside
+  the repository, tests, diffs, and read-only analysis need no confirmation.
 
 ## Communication
 

@@ -31,9 +31,7 @@ One plan per slice. Turns "what" into "in what order, touching which files".
 Skip `superpowers:brainstorming` when a spec already decided it. Keep it for
 implementation choices nothing has reached yet.
 
-The plan states values the repo can be checked against: exact paths, exact exported
-names, exact status values. Anything that does not exist yet is named as not existing.
-A plan long enough to contradict the repo in more than one place is two plans.
+What a plan states and when it splits: CLAUDE.md's **Sources of Truth**.
 
 ## 2. The cut gate
 
