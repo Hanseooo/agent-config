@@ -166,12 +166,14 @@ agent's own global rules are stricter, the stricter rule wins.
   change; auth, billing, or infra; more than three modules; hard to reverse.
 - **The code wins.** A plan or doc the codebase contradicts is not a spec to satisfy.
   Deviate, and name what you found. Flag the drift.
-- **Evidence over inference.** A claim about behavior, an API, or a version is checked or
-  labeled inferred. A bug gets a command that goes red on it before it gets a fix. Two
-  failed fixes on one premise → test the premise before a third.
+- **Evidence over inference.** A fact about the code or system is checked before anything
+  is built on it, or labeled inferred. A bug gets a command that goes red on it and two
+  or more candidate causes before a fix. Two failed fixes on one premise → test the
+  premise before a third.
 - **Verify before done.** Never claim complete without running the check and showing its
-  output. Run existing tests before writing new ones. A UI change is driven in a real
-  browser before it is done.
+  output. Done is observed on the real artifact (the running feature, the actual value,
+  the UI in a real browser). Tests and builds are proxies. A subagent's report is a claim
+  until its diff or output is checked.
 - **Tests prove behavior.** Each new test fails for the intended reason first. Expected
   values are hand-worked, never computed by the code under test (a tautological test
   passes by construction). Test through the public interface, mock only third-party
