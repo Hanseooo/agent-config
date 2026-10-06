@@ -13,7 +13,7 @@
   "autoUpdatesChannel": "latest",
   "theme": "dark",
   "agentPushNotifEnabled": true,
-  "attribution": { "commit": false },
+  "attribution": { "commit": "" },
   "skipDangerousModePermissionPrompt": false,
   "extraKnownMarketplaces": {
     "claude-community": { "source": { "source": "github", "repo": "anthropics/claude-plugins-community" } },
