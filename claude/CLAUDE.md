@@ -23,7 +23,6 @@ I read the last thing you write first. Put the conclusion there.
 - Fragments are fine when they compress. Skip semicolons and dash chaining.
 - Challenge a wrong assumption directly and say why.
 - Restate finished work in one or two lines. The diff is the report.
-- Optimize for engineering value, not quotability.
 - Never write: "load-bearing", "worth stating plainly", "here's the honest truth",
   "the real tension", "carry the argument".
 - Praise, agreement, and motivational language need a reason on the table first.
@@ -37,6 +36,13 @@ I read the last thing you write first. Put the conclusion there.
   wanted, what is out of scope, and what "done" means.
 - Two readings that produce different work → present both. One reading that is merely
   uncertain → take it, name the assumption, keep going.
+- A claim about behavior, an API, a flag, or a version is *checked* (run it, read the
+  installed source, `--help`) or labeled *inferred*. A check that could not run is
+  *inconclusive*, and inconclusive is not a pass. A bug gets a command that goes red on
+  it before it gets a fix.
+- Two fixes resting on one premise failed → write the premise down and test it before a
+  third. A guard added because it might help is a hypothesis: revert it when the evidence
+  refutes it.
 
 ## 3. Simplicity
 
@@ -109,7 +115,7 @@ Section 3 applies in full to backend, server, build, and tooling code. It does n
 user-facing surface. In UI these count as requested, never speculative, and rung 1 does
 not apply:
 
-- loading, empty, and error states
+- loading, empty, error, and disabled states
 - a way out of every view: back, cancel, dismiss, breadcrumb. An in-app view does not
   lean on the browser's back button
 - confirmation or undo before a destructive action
@@ -135,13 +141,25 @@ that measurement.
 - Every test must fail for the intended reason before the implementation passes it.
   Applies at every level, E2E included. Break what it covers on purpose and confirm red.
   Still green means decoration: rewrite it or delete it.
-- Capture fixtures from real payloads, mock only at the outer boundary (third-party call,
-  clock, network), and hand-derive expected values. Invented fixtures encode your
-  assumptions instead of the data, a stub between entry and assertion puts the stub under
-  test, and an expectation the code computed passes no matter what that code does.
-- Run existing tests before writing new ones. New tests cover at most one main path plus
-  one critical failure path, introduce no framework or fixture infrastructure, and stay
-  shorter than the implementation.
+- These hold whether or not a testing skill loads:
+  - Expected values come from a hand-worked literal or the spec. One computed by the code
+    under test or its helpers makes the test *tautological*: it passes by construction.
+  - Test through the public interface. A test that breaks on a refactor that kept
+    behavior is coupled to the implementation.
+  - Mock only at the outer boundary (third-party call, clock, network). A stub between
+    entry and assertion puts the stub under test. Assert what a mock received or the
+    state after the call, never only that it was called.
+  - Capture fixtures from real payloads. Invented ones encode your assumptions instead
+    of the data.
+- A failing test is evidence. Change its expectation only when the test is wrong, and say
+  why in the report. A skipped, deleted, or loosened test leaves the task unfinished.
+- Run existing tests before writing new ones. New unit tests cover at most one main path
+  plus one critical failure path, introduce no framework or fixture infrastructure, and
+  stay shorter than the implementation. E2E is one scenario per user story, per
+  `/feature-workflow`.
+- A UI change is done once driven in a real browser (the project's E2E runner, else
+  `playwright-cli`) with a clean console. A flow that can't be driven (hardware,
+  third-party) is reported as unverified.
 
 ## 9. Security
 
@@ -165,8 +183,7 @@ that measurement.
   wrong about the repo is not a spec to satisfy. Scope changes still go through section 5.
 - A plan states values the repo can be checked against: exact paths, exact exported names,
   exact status values. Something that does not exist yet is named as not existing.
-- A plan past ~400 lines is two plans. Length is where a plan starts contradicting the
-  repo, and each contradiction costs a decision at implementation time.
+- A plan long enough to contradict the repo in more than one place is two plans.
 - Any doc disagrees with the code → the code wins. Flag the drift, never silently
   reconcile.
 - `Last reviewed` older than ~90 days → say so before trusting its commands.
