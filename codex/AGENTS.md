@@ -12,9 +12,9 @@
   service, or datastore, changing a schema, public interface, or API contract, touching
   auth, billing, or infrastructure, spanning more than three modules, or making a
   hard-to-reverse decision.
-- When material ambiguity changes the result, state the options and tradeoffs, then ask
-  one focused question. An interpretation that is merely uncertain is taken: name the
-  assumption and continue.
+- When material ambiguity in the request changes the result, state the options and
+  tradeoffs, then ask one focused question. An interpretation that is merely uncertain is
+  taken: name the assumption and continue.
 
 ## Simplicity
 
@@ -59,10 +59,12 @@ A solid foundation is cheap to reverse, not built ahead of need.
 
 - Read the requirement and trace the affected code path before editing.
 - Search the whole repository before calling code unused, dead, or deprecated.
-- A claim about behavior, an API, a flag, or a version is checked (run it, read the
-  installed source, `--help`) or labeled inferred. A check that could not run is
-  inconclusive, and inconclusive is not a pass. A bug gets a command that goes red on it
-  before it gets a fix.
+- A fact about the code or system, such as behavior, an API, a flag, a version, or a
+  cause, is checked before anything is built on it: run it, read the installed source,
+  `--help`. When nothing can check it, label it inferred and proceed. A check that could
+  not run is inconclusive, and inconclusive is not a pass.
+- A bug gets a command that goes red on it before it gets a fix, and two or more
+  candidate causes before the first is tested. The first idea anchors.
 - After two failed fixes resting on one premise, write the premise down and test it
   before a third. A guard added because it might help is a hypothesis: revert it when the
   evidence refutes it.
@@ -109,9 +111,14 @@ A solid foundation is cheap to reverse, not built ahead of need.
     of the data.
 - A failing test is evidence. Change its expectation only when the test is wrong, and say
   why in the report. A skipped, deleted, or loosened test leaves the task unfinished.
-- A UI change is complete once driven in a real browser, using the project's end-to-end
-  runner or else `playwright-cli`, with a clean console. A flow that cannot be driven,
-  such as hardware or a third-party service, is reported as unverified.
+- Completion is observed on the real artifact: run the feature, call the endpoint, read
+  the actual value, drive the UI in a real browser (the project's end-to-end runner, or
+  else `playwright-cli`) with a clean console. Passing tests and a clean build are
+  proxies. A flow that cannot be driven, such as hardware or a third-party service, is
+  reported as unverified.
+- A bug fix is complete when the command that went red on the bug goes green. A
+  subagent's report is a claim: check its diff or output before relaying it. When a check
+  fails, suspect the check before the system.
 - Completion requires fresh evidence. Report commands run and results. Include failure
   output and clearly name skipped checks.
 

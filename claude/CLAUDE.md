@@ -34,12 +34,14 @@ I read the last thing you write first. Put the conclusion there.
 - Read the code you are about to change. Searching and inferring is not reading.
 - A wrong premise beats correct reasoning. Before non-trivial work, restate what is
   wanted, what is out of scope, and what "done" means.
-- Two readings that produce different work → present both. One reading that is merely
-  uncertain → take it, name the assumption, keep going.
-- A claim about behavior, an API, a flag, or a version is *checked* (run it, read the
-  installed source, `--help`) or labeled *inferred*. A check that could not run is
-  *inconclusive*, and inconclusive is not a pass. A bug gets a command that goes red on
-  it before it gets a fix.
+- Two readings of the request that produce different work → present both. One reading
+  that is merely uncertain → take it, name the assumption, keep going.
+- A fact about the code or system (behavior, an API, a flag, a version, a cause) is
+  *checked* before anything is built on it: run it, read the installed source, `--help`.
+  Nothing can check it → label it *inferred* and proceed. A check that could not run is
+  *inconclusive*, and inconclusive is not a pass.
+- A bug gets a command that goes red on it before it gets a fix, and two or more
+  candidate causes before the first is tested. The first idea anchors.
 - Two fixes resting on one premise failed → write the premise down and test it before a
   third. A guard added because it might help is a hypothesis: revert it when the evidence
   refutes it.
@@ -157,9 +159,13 @@ that measurement.
   plus one critical failure path, introduce no framework or fixture infrastructure, and
   stay shorter than the implementation. E2E is one scenario per user story, per
   `/feature-workflow`.
-- A UI change is done once driven in a real browser (the project's E2E runner, else
-  `playwright-cli`) with a clean console. A flow that can't be driven (hardware,
-  third-party) is reported as unverified.
+- Done is observed on the real artifact: run the feature, call the endpoint, read the
+  actual value, drive the UI in a real browser (the project's E2E runner, else
+  `playwright-cli`) with a clean console. Passing tests and a clean build are proxies. A
+  flow that can't be driven (hardware, third-party) is reported as unverified.
+- A bug fix is done when the command that went red on the bug goes green. A subagent's
+  report is a claim: check its diff or output before relaying it. A failed check →
+  suspect the check before the system.
 
 ## 9. Security
 
