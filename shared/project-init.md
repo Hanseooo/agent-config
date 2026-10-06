@@ -25,8 +25,8 @@ existing agent instruction files: `AGENTS.override.md`, `AGENTS.md`, `CLAUDE.md`
 
 - **None exist** → go to Phase 1.
 - **Any exists** → read it. Do not overwrite. Run Phase 1, then report what the existing
-  file gets wrong or omits, propose a diff, and ask whether to patch in place, replace,
-  or stop. Stop means stop.
+  file gets wrong or omits, and what it carries inline that only some tasks need. Propose
+  a diff, and ask whether to patch in place, replace, or stop. Stop means stop.
 
 ## Phase 1: Reconnaissance
 
@@ -78,7 +78,7 @@ Last reviewed: <YYYY-MM-DD>
 
 ## Documentation Map
 - Always read: <1-3 highest-signal docs>
-- Read when: <scenario> → <doc path>
+- Read when: <task that needs it> → <doc path>
 - Fallback: no docs beyond README → README, CI config, and code are truth.
 - Where a doc above answers the question, it outranks commit messages, roadmap history,
   and any skill that fires on its own. Design skills are reviewers, not requirements.
@@ -226,7 +226,14 @@ Write only the files that apply. Never duplicate project facts into them.
    `pnpm-lock.yaml`→pnpm · `yarn.lock`→yarn · `package-lock.json`→npm · `bun.lockb`→bun ·
    `uv.lock`→`uv run` · `poetry.lock`→`poetry run` · `Pipfile.lock`→`pipenv run`.
    Two lockfiles for one ecosystem → say so and ask; do not guess.
-4. **Doc map:** 1-3 always-read entries, everything else gated on a stated scenario.
+4. **Progressive disclosure.** Inline what every task needs: commands, invariants, the
+   doc map. Material only some tasks reach (a deploy procedure, a long list of critical
+   flows, a migration guide) goes behind a `Read when` pointer to the doc that holds it.
+   An existing doc is pointed at, never copied. No doc holds it → inline it if it fits in
+   a few lines, otherwise name the proposed doc in the final report instead of creating it
+   unasked. The doc map has 1-3 always-read entries. Each `Read when` line leads with the
+   task that triggers it, one task per line: that wording decides whether an agent ever
+   opens the doc.
 5. **No duplication.** `AGENTS.md` holds the project facts. Companion pointer files hold
    none. A nested `AGENTS.md` holds only its difference from the root.
 6. **Every line earns its load.** This file is read on every session. Cut a line that
@@ -247,5 +254,7 @@ Write only the files that apply. Never duplicate project facts into them.
 - Every line passed the removal test: deleting it would cause an agent to make a mistake.
   The final report lists the lines cut by this test.
 - Every command was validated against its source.
+- Everything inline is needed by every task. The rest sits behind a `Read when` pointer
+  or is named in the report as a proposed doc.
 - No existing instruction file was changed without approval.
 - The final report names every gap you chose to omit rather than guess.
