@@ -27,6 +27,7 @@ Read only the one you need.
 | [2. Make a change](docs/2-making-changes.md) | You want to edit instructions, add a skill, or change a setting |
 | [3. What's synced](docs/3-whats-synced.md) | Something didn't carry over and you want to know why |
 | [4. Troubleshooting](docs/4-troubleshooting.md) | The installer printed a warning or something looks wrong |
+| [5. Instruction file research](docs/5-instruction-research.md) | You want to add or cut a global rule or skill and want the evidence |
 
 ## What's in here
 

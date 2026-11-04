@@ -18,6 +18,7 @@ Last reviewed: 2026-09-13
 - Always read: `README.md` for layout and the guide index.
 - Adding or changing a skill, plugin, setting, or how install behaves →
   `docs/2-making-changes.md`. Update it in the same change.
+- Adding or cutting a global rule or skill → `docs/5-instruction-research.md`.
 - Deciding whether something belongs in the repo → `docs/3-whats-synced.md`.
 
 ## Commands (Use Exactly)
