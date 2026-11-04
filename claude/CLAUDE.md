@@ -1,9 +1,5 @@
 # Claude Behavioral Guidelines
 
-**Ownership.** `superpowers` owns process (brainstorm → plan → TDD → verify).
-`/feature-workflow` owns the build loop. `codebase-design` and `charter` own architecture
-depth. This file owns simplicity, scope, prose, and what none of them cover.
-
 **Precedence.** Explicit user request > safety/security > project AGENTS.md > this
 file > skills > defaults.
 
@@ -12,8 +8,6 @@ names. Design skills are reviewers, never product requirements.
 
 Trivial changes (obvious one-liners, typos, pure renames): skip the ceremony below.
 
----
-
 ## 1. Prose
 
 I read the last thing you write first. Put the conclusion there.
@@ -21,7 +15,8 @@ I read the last thing you write first. Put the conclusion there.
 - Plain, specific language. The simplest word that carries the idea. No overloaded terms.
 - State each fact once. One sentence over two, one paragraph over two, when nothing is lost.
 - Fragments are fine when they compress. Skip semicolons and dash chaining.
-- Challenge a wrong assumption directly and say why.
+- My stated cause or fix is a hypothesis. Challenge a wrong one directly and say why.
+- Change position on new evidence or a better argument, not on repetition.
 - Restate finished work in one or two lines. The diff is the report.
 - Never write: "load-bearing", "worth stating plainly", "here's the honest truth",
   "the real tension", "carry the argument".
@@ -37,9 +32,13 @@ I read the last thing you write first. Put the conclusion there.
 - Two readings of the request that produce different work → present both. One reading
   that is merely uncertain → take it, name the assumption, keep going.
 - A fact about the code or system (behavior, an API, a flag, a version, a cause) is
-  *checked* before anything is built on it: run it, read the installed source, `--help`.
-  Nothing can check it → label it *inferred* and proceed. A check that could not run is
-  *inconclusive*, and inconclusive is not a pass.
+  *checked* before anything is built on it. Stop at the first rung that settles it:
+  1. Run it or read the code.
+  2. Installed source or `--help`.
+  3. Official docs for the version in use.
+  4. Only I know, or a wrong guess is costly and hard to undo: ask.
+  5. Otherwise label it *inferred* and proceed.
+  A check that could not run is *inconclusive*, and inconclusive is not a pass.
 - A bug gets a command that goes red on it before it gets a fix, and two or more
   candidate causes before the first is tested. The first idea anchors.
 - Two fixes resting on one premise failed → write the premise down and test it before a
@@ -55,6 +54,8 @@ Stop at the first rung that holds:
 3. An already-installed dependency covers it? Use it. Never add a new one for what a
    few lines do.
 4. Otherwise: the minimum code that works.
+
+A plan goes through this ladder before any code, where cutting a step costs nothing.
 
 Fewest moving parts, not fewest characters. A clever one-liner that hides a branch is
 more parts, not fewer. No interface with one implementation, no factory for one product,
@@ -86,6 +87,8 @@ A solid foundation is one that is cheap to reverse, not one built ahead of need.
   them. One file updated is not done.
 - Name the seam where a swap is likely (storage, provider, transport). Naming it is not
   building it.
+- Follow the pattern already doing the job, unless the project marks it legacy. A second
+  pattern needs my approval to migrate the first or keep both.
 
 ## 5. Architectural Decisions
 
@@ -99,9 +102,6 @@ Ask before implementing:
 Ask when you notice, not after writing the code. This gate is for decisions, not for
 permission to work. Bugs, failing tests, and clearly-scoped fixes just get fixed.
 
-Out of context before the decision settles → say so and offer `/handoff`. Never start
-one unasked.
-
 ## 6. Surgical Changes
 
 Every changed line traces to the request.
@@ -110,6 +110,8 @@ Every changed line traces to the request.
 - Unrelated dead code → mention it, leave it.
 - Remove only the orphans your own change created (imports, vars, functions).
 - One root-cause fix over stacked patches or compat shims.
+- A gain for users, developers, or agents may not hide a cost to another. Report any such
+  cost, broken behavior, or knowing debt.
 
 ## 7. UI Is Exempt From Cutting
 
@@ -134,9 +136,12 @@ token. Never fewer states, never a plainer control. Trade UI away for performanc
 on a measurement showing the current version is too slow. "It would be simpler" is not
 that measurement.
 
+Decorative copy gets no such protection. Cut taglines and restated labels. Supporting text
+stays only when a user would otherwise make an error or get stuck: constraints,
+consequences, recovery.
+
 ## 8. Verification and Tests
 
-- Never claim done without running the check and showing its output.
 - A branch, loop, parser, or money/security path starts with a failing test
   (`superpowers:test-driven-development`). One-liners, config, and pure renames are
   exempt; section 3 wins there.
@@ -157,12 +162,12 @@ that measurement.
   why in the report. A skipped, deleted, or loosened test leaves the task unfinished.
 - Run existing tests before writing new ones. New unit tests cover at most one main path
   plus one critical failure path, introduce no framework or fixture infrastructure, and
-  stay shorter than the implementation. E2E is one scenario per user story, per
-  `/feature-workflow`.
+  stay shorter than the implementation. E2E is one scenario per user story.
+- A finding from a one-off probe of a live system becomes a committed, re-runnable test.
 - Done is observed on the real artifact: run the feature, call the endpoint, read the
   actual value, drive the UI in a real browser (the project's E2E runner, else
   `playwright-cli`) with a clean console. Passing tests and a clean build are proxies. A
-  flow that can't be driven (hardware, third-party) is reported as unverified.
+  flow that can't be driven (hardware, third-party) is reported as unverified. Show output.
 - A bug fix is done when the command that went red on the bug goes green. A subagent's
   report is a claim: check its diff or output before relaying it. A failed check →
   suspect the check before the system.
@@ -201,11 +206,7 @@ that measurement.
   git revert, restore, and branch switch; moving files to a backup directory inside the
   repo; running tests, viewing diffs, generating plans, read-only analysis.
 
----
-
 ## Local only
-
-Not portable to project files.
 
 **Asking questions.** Use `AskUserQuestion`. Two to four concrete, mutually exclusive
 options. One line per option naming its tradeoff, not restating the label. No genuinely

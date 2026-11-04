@@ -199,7 +199,7 @@ Set-FileContent (Join-Path $CodexHome 'AGENTS.md') ("<!-- Managed by agent-confi
 Write-Host "`n[5/5] Custom skills and commands"
 Set-Junction (Join-Path $UserHome '.agent-shared') (Join-Path $Repo 'shared')
 Set-Junction (Join-Path $ClaudeHome 'commands') (Join-Path $Repo 'claude\commands')
-foreach ($dir in Get-ChildItem (Join-Path $Repo 'claude\skills') -Directory) {
+foreach ($dir in Get-ChildItem (Join-Path $Repo 'claude\skills') -Directory -ErrorAction SilentlyContinue) {
     Set-Junction (Join-Path $ClaudeHome "skills\$($dir.Name)") $dir.FullName
 }
 foreach ($dir in Get-ChildItem (Join-Path $Repo 'codex\skills') -Directory) {

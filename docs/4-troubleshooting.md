@@ -39,7 +39,7 @@ terminal, then re-run the installer.
 1. Restart the tool. Neither reloads skills mid-session.
 2. Check the link exists:
    ```powershell
-   Get-Item $HOME\.claude\skills\feature-workflow | Select-Object LinkType, Target
+   Get-Item $HOME\.codex\skills\project-init | Select-Object LinkType, Target
    ```
    No `Junction`? Re-run `.\install.ps1`.
 

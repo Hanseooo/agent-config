@@ -35,7 +35,6 @@ AGENTS.md                 rules for agents working on this repo (CLAUDE.md impor
 claude/
   CLAUDE.md               global instructions for Claude Code
   commands/               slash commands (/project-init)
-  skills/                 Claude-only custom skills (feature-workflow)
   settings.shared.json    the parts of settings.json every machine should share
 codex/
   AGENTS.md               global instructions for Codex
