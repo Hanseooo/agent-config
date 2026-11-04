@@ -6,8 +6,7 @@
 |---|---|
 | Claude global instructions | `~\.claude\CLAUDE.md` imports `claude/CLAUDE.md` |
 | Codex global instructions | `codex/AGENTS.md` is copied to `~\.codex\AGENTS.md` |
-| Custom skills and commands | Folder links (junctions) into `~\.claude` and `~\.codex` |
-| `project-init.md` shared procedure | `~\.agent-shared` links to `shared/` |
+| Custom skills | Folder links (junctions) into `~\.claude` and `~\.codex` |
 | Third-party skills | Installed fresh from their GitHub source, listed in `skills.json` |
 | Plugins and marketplaces | Installed with the `claude` and `codex` CLIs, listed in `plugins.json` |
 | Model, effort, permissions, status line, theme, plugin on/off | Merged from the `*.shared.*` files |

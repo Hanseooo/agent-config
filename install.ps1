@@ -196,13 +196,11 @@ Set-FileContent (Join-Path $ClaudeHome 'CLAUDE.md') ("<!-- Managed by agent-conf
 # Codex has no import, so AGENTS.md is a copy. Edit the repo file and re-run.
 Set-FileContent (Join-Path $CodexHome 'AGENTS.md') ("<!-- Managed by agent-config. Edit $repoRef/codex/AGENTS.md and re-run install.ps1. Edits made here get replaced. -->`n`n" + (Read-Text (Join-Path $Repo 'codex\AGENTS.md')))
 
-Write-Host "`n[5/5] Custom skills and commands"
-Set-Junction (Join-Path $UserHome '.agent-shared') (Join-Path $Repo 'shared')
-Set-Junction (Join-Path $ClaudeHome 'commands') (Join-Path $Repo 'claude\commands')
+Write-Host "`n[5/5] Custom skills"
 foreach ($dir in Get-ChildItem (Join-Path $Repo 'claude\skills') -Directory -ErrorAction SilentlyContinue) {
     Set-Junction (Join-Path $ClaudeHome "skills\$($dir.Name)") $dir.FullName
 }
-foreach ($dir in Get-ChildItem (Join-Path $Repo 'codex\skills') -Directory) {
+foreach ($dir in Get-ChildItem (Join-Path $Repo 'codex\skills') -Directory -ErrorAction SilentlyContinue) {
     Set-Junction (Join-Path $CodexHome "skills\$($dir.Name)") $dir.FullName
 }
 

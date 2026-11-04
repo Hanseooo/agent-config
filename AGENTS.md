@@ -9,7 +9,7 @@ Last reviewed: 2026-09-13
 - This file governs work on the repo. `codex/AGENTS.md` and `claude/CLAUDE.md` are content:
   the user's own global rules for each tool.
 - The repo is live on the user's machine. `~/.claude/CLAUDE.md` imports `claude/CLAUDE.md`,
-  and `shared/`, `claude/commands/`, and each custom skill folder are junctioned in. An edit
+  and each custom skill folder is junctioned in. An edit
   reaches the user's next session before any commit.
 - Critical paths: `install.ps1` and `lib/merge.ps1` rewrite the user's real settings files.
 
