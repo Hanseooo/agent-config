@@ -34,14 +34,25 @@ on GitHub and update `skills.json`.
 Codex is open and has the plugin's files in use. Close the Codex app and every Codex
 terminal, then re-run the installer.
 
-## A skill or command doesn't show up
+## A skill doesn't show up
 
 1. Restart the tool. Neither reloads skills mid-session.
-2. Check the link exists:
+2. Check it's installed:
    ```powershell
-   Get-Item $HOME\.claude\skills\feature-workflow | Select-Object LinkType, Target
+   Get-Item $HOME\.agents\skills\project-init
    ```
-   No `Junction`? Re-run `.\install.ps1`.
+   Missing? Re-run `.\install.ps1`.
+
+## `/project-init` runs an old version or fails on a missing file
+
+This machine still has links from when agent-config held its own copy. Install never removes
+them, so delete them once. This removes only the links:
+
+```powershell
+foreach ($p in "$HOME\.agent-shared", "$HOME\.claude\commands", "$HOME\.codex\skills\project-init") {
+    if ((Get-Item -LiteralPath $p -Force -ErrorAction SilentlyContinue).LinkType) { [IO.Directory]::Delete($p, $false) }
+}
+```
 
 ## Claude ignores my instructions
 
@@ -65,6 +76,6 @@ what you need.
 
 ## Undo everything
 
-1. Delete the links: `~\.agent-shared`, `~\.claude\commands`, and the custom skill folders
+1. Delete the links: the custom skill folders
    under `~\.claude\skills` and `~\.codex\skills`. Deleting a junction doesn't touch the repo.
 2. Copy your files back from the oldest folder in `.backup\`.

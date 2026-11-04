@@ -21,13 +21,13 @@ Jump to what you're changing:
 | Claude Code | `claude/CLAUDE.md` | Next session. `~\.claude\CLAUDE.md` only imports this file. |
 | Codex | `codex/AGENTS.md` | After you re-run `.\install.ps1`. Codex can't import, so it gets a copy. |
 
-## Your own skills and commands
+## Your own skills
 
-Edit files in `claude/skills/`, `claude/commands/`, `codex/skills/`, or `shared/`.
-The tools read these folders through links, so edits apply right away.
+A skill in `claude/skills/<name>/` or `codex/skills/<name>/` is read through a link, so edits
+apply right away. Neither folder exists until you add one. Skills meant for everyone, such
+as `project-init`, live in hanseo-skills and install through `skills.json`.
 
 **Adding a new skill folder?** Re-run `.\install.ps1` so it gets linked.
-New command files in `claude/commands/` need nothing, the whole folder is linked.
 
 ## Third-party skills
 

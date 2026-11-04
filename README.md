@@ -34,14 +34,10 @@ Read only the one you need.
 AGENTS.md                 rules for agents working on this repo (CLAUDE.md imports it)
 claude/
   CLAUDE.md               global instructions for Claude Code
-  commands/               slash commands (/project-init)
-  skills/                 Claude-only custom skills (feature-workflow)
   settings.shared.json    the parts of settings.json every machine should share
 codex/
   AGENTS.md               global instructions for Codex
-  skills/                 Codex-only custom skills (project-init)
   config.shared.toml      the parts of config.toml every machine should share
-shared/                   files both tools read (project-init.md)
 skills.json               third-party skills to install, and for which tool
 plugins.json              plugins and marketplaces to install
 install.ps1               the installer
